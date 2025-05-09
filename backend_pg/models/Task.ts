@@ -1,22 +1,34 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../sequelize';
 
-const Task = sequelize.define('Task', {
-    title: {
-        type: DataTypes.STRING,
-        allowNull: false
+const Task = sequelize.define(
+    'Task',
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true,
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                len: [1, 255], // Ensure title is not empty and not too long
+            },
+        },
+        completed: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
+        archived: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        },
     },
-    completed: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-    },
-    archived: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+    {
+        tableName: 'tasks',
+        timestamps: false,
     }
-}, {
-    tableName: 'tasks',
-    timestamps: false // optional
-});
+);
 
 export default Task;
